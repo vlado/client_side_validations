@@ -9,7 +9,8 @@ $ = jQuery
 $.fn.validate = ->
   @filter('form[data-validate]').each ->
     form = $(@)
-    settings = window.ClientSideValidations.forms[form.attr('id')]
+    # settings = window.ClientSideValidations.forms[form.attr('id')]
+    settings = csv_forms[form.attr('id')]
     addError = (element, message) ->
       ClientSideValidations.formBuilders[settings.type].add(element, settings, message)
     removeError = (element) ->
@@ -135,7 +136,7 @@ window.ClientSideValidations =
         if message
           return if options.allow_blank == true
           return message
-        
+
         return options.message if options.with and !options.with.test(element.val())
         return options.message if options.without and options.without.test(element.val())
 

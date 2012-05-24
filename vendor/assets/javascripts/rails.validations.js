@@ -8,7 +8,8 @@
     return this.filter('form[data-validate]').each(function() {
       var addError, binding, event, form, removeError, settings, _ref, _ref2;
       form = $(this);
-      settings = window.ClientSideValidations.forms[form.attr('id')];
+      // settings = window.ClientSideValidations.forms[form.attr('id')];
+      settings = window.csv_forms[form.attr('id')];
       addError = function(element, message) {
         return ClientSideValidations.formBuilders[settings.type].add(element, settings, message);
       };

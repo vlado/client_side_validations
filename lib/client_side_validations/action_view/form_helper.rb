@@ -90,13 +90,20 @@ module ClientSideValidations::ActionView::Helpers
               options[:as] ? "#{options[:as]}_new" : dom_id(object)
             end
           end
-          
-          
+
+
         end
 
         content_tag(:script) do
-          "//<![CDATA[\nwindow.ClientSideValidations.forms['#{var_name}'] = #{builder.client_side_form_settings(options, self).merge(:validators => 'validator_hash').to_json};\n//]]>".html_safe
+          # "//<![CDATA[\nwindow.ClientSideValidations.forms['#{var_name}'] = #{builder.client_side_form_settings(options, self).merge(:validators => 'validator_hash').to_json};\n//]]>".html_safe
+          "//<![CDATA[\nwindow.csv_forms['#{var_name}'] = #{builder.client_side_form_settings(options, self).merge(:validators => 'validator_hash').to_json};\n//]]>".html_safe
         end
+      end
+    end
+
+    def init_client_side_validations
+      content_tag(:script) do
+        "//<![CDATA[\nwindow.csv_forms = {};\n//]]>".html_safe
       end
     end
 
