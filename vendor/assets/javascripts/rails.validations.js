@@ -43,7 +43,13 @@
       }
       _ref1 = {
         'focusout': function() {
-          return $(this).isValid(settings.validators);
+          var focusedOutField;
+          focusedOutField = $(this);
+          if (focusedOutField.is(':visible')) {
+            return setTimeout((function() {
+              return focusedOutField.isValid(settings.validators);
+            }), 200);
+          }
         },
         'change': function() {
           return $(this).data('changed', true);
@@ -137,7 +143,7 @@
   validateElement = function(element, validators) {
     var context, fn, kind, message, valid, _ref;
     element.trigger('element:validate:before');
-    if (element.data('changed') !== false) {
+    if (true) {
       valid = true;
       element.data('changed', false);
       context = ClientSideValidations.validators.local;

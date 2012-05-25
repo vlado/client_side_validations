@@ -26,7 +26,14 @@ $.fn.validate = ->
       'form:validate:pass'  : (eventData) -> ClientSideValidations.callbacks.form.pass(  form, eventData)
     }
     form.find('[data-validate="true"]:input:enabled:not(:radio)').live(event, binding) for event, binding of {
-      'focusout':                -> $(@).isValid(settings.validators)
+      'focusout':                ->
+        # we only want to validate currently visible fields
+        # timeout is added to prevent focusout event from stoping click event (submit button clicked for example)
+        focusedOutField = $(@)
+        if focusedOutField.is(':visible')
+          setTimeout ( ->
+            focusedOutField.isValid(settings.validators)
+          ), 200
       'change':                  -> $(@).data('changed', true)
       # Callbacks
       'element:validate:after':  (eventData) -> ClientSideValidations.callbacks.element.after($(@), eventData)
@@ -81,9 +88,12 @@ validateForm = (form, validators) ->
   valid
 
 validateElement = (element, validators) ->
+
   element.trigger('element:validate:before')
 
-  if element.data('changed') != false
+  # if element.data('changed') != false
+  # !!!!! browser autofill doesn't trigger change event so we validate each time for now
+  if true
     valid = true
     element.data('changed', false)
 
