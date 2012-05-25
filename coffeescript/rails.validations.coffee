@@ -10,7 +10,7 @@ $.fn.validate = ->
   @filter('form[data-validate]').each ->
     form = $(@)
     # settings = window.ClientSideValidations.forms[form.attr('id')]
-    settings = csv_forms[form.attr('id')]
+    settings = window.csv_forms[form.attr('id')]
     addError = (element, message) ->
       ClientSideValidations.formBuilders[settings.type].add(element, settings, message)
     removeError = (element) ->
@@ -71,8 +71,9 @@ validateForm = (form, validators) ->
   form.trigger('form:validate:before')
 
   valid = true
-  form.find('[data-validate="true"]:input:enabled').each ->
+  form.find('[data-validate="true"]:input:visible:enabled').each ->
     valid = false if $(@).isValid(validators)
+    true
 
   if valid then form.trigger('form:validate:pass') else form.trigger('form:validate:fail')
 
