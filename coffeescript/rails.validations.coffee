@@ -60,7 +60,8 @@ $.fn.validate = ->
       if element[0]
         $("##{confirmationElement.attr('id')}").live(event, binding) for event, binding of {
           'focusout': -> element.data('changed', true).isValid(settings.validators)
-          'keyup'   : -> element.data('changed', true).isValid(settings.validators)
+          # keyup commented cause we want confirmation checked only when user leaves confirmation field
+          # 'keyup'   : -> element.data('changed', true).isValid(settings.validators)
         }
 
 $.fn.isValid = (validators) ->
@@ -229,7 +230,8 @@ window.ClientSideValidations =
           return options.message
 
       confirmation: (element, options) ->
-        if element.val() != jQuery("##{element.attr('id')}_confirmation").val()
+        confirmationElementValue = jQuery("##{element.attr('id')}_confirmation").val()
+        if confirmationElementValue && element.val() != confirmationElementValue
           return options.message
 
     remote:
