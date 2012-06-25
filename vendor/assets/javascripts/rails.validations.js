@@ -90,9 +90,6 @@
           _ref2 = {
             'focusout': function() {
               return element.data('changed', true).isValid(settings.validators);
-            },
-            'keyup': function() {
-              return element.data('changed', true).isValid(settings.validators);
             }
           };
           _results = [];
@@ -349,7 +346,9 @@
           }
         },
         confirmation: function(element, options) {
-          if (element.val() !== jQuery("#" + (element.attr('id')) + "_confirmation").val()) {
+          var confirmationElementValue;
+          confirmationElementValue = jQuery("#" + (element.attr('id')) + "_confirmation").val();
+          if (confirmationElementValue && element.val() !== confirmationElementValue) {
             return options.message;
           }
         }
